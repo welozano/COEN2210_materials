@@ -32,7 +32,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | # | Semana | Tema | Enlace |
 |---|---|---|---|
 | 1 | 1 | Git y GitHub desde la consola | [labs/Lab1_Git_GitHub_Consola.md](labs/Lab1_Git_GitHub_Consola.md) |
-| 2 | 2 | VS Code + Git/GitHub desde el IDE | *(pendiente)* |
+| 2 | 2 | VS Code + Git/GitHub desde el IDE | [labs/Lab2_VSCode_Git_Representacion_Numerica.md](labs/Lab2_VSCode_Git_Representacion_Numerica.md) |
 | 3 | 3 | Compilar/correr programas, leer errores del compilador | *(pendiente)* |
 | 4 | 4 | Trazar expresiones, detectar errores lógicos | *(pendiente)* |
 | 5 | 5 | If-else structures | *(pendiente)* |
