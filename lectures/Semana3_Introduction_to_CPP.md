@@ -83,6 +83,26 @@ int main()
 
 </details>
 
+**Ejercicio adicional para practicar por tu cuenta:** identifica qué línea de este programa causa un error de compilación, y explica por qué:
+
+```cpp
+#include <iostream>;
+using namespace std;
+
+int main()
+{
+    cout << "Hola mundo";
+    return 0;
+}
+```
+
+<details>
+<summary>Ver respuesta</summary>
+
+La línea `#include <iostream>;` — tiene un punto y coma al final, lo cual no está permitido en una directiva de preprocesador (solo las instrucciones de C++ llevan `;`, no las directivas que empiezan con `#`).
+
+</details>
+
 ---
 
 ## Parte 2 — El objeto `cout` (15 min)
@@ -171,6 +191,24 @@ edad = 20;
 4. C++ **distingue mayúsculas de minúsculas** — `Sales` y `sales` son variables distintas.
 5. No pueden contener espacios ni símbolos como `&`, `%`, `-`.
 
+**Declarar varias variables del mismo tipo a la vez:**
+
+```cpp
+int largo, ancho;
+```
+
+Es equivalente a declararlas por separado (`int largo; int ancho;`), pero más compacto cuando varias variables comparten tipo.
+
+**Tipos de literales que ya has visto:**
+
+| Literal | Tipo |
+|---|---|
+| `72` | entero (`int`) |
+| `'A'` | carácter (`char`) |
+| `"Hola"` | string |
+| `3.14` | flotante (`double` por defecto) |
+| `true` / `false` | `bool` |
+
 **Para practicar por tu cuenta:**
 
 ¿Cuáles de estos son nombres de variable **inválidos**, y por qué?
@@ -192,6 +230,39 @@ grade_report
 
 </details>
 
+**Ejercicios adicionales para practicar por tu cuenta:**
+
+1. ¿Es `Sales` la misma variable que `sales`? ¿Por qué sí o por qué no?
+
+<details>
+<summary>Ver respuesta</summary>
+
+**No, son variables distintas** — C++ distingue mayúsculas de minúsculas (es *case-sensitive*). Declarar ambas en el mismo programa crearía dos variables completamente independientes.
+
+</details>
+
+2. Declara, en una sola línea, tres variables enteras llamadas `dia`, `mes`, y `anio`.
+
+<details>
+<summary>Ver respuesta</summary>
+
+```cpp
+int dia, mes, anio;
+```
+
+</details>
+
+3. ¿Qué tipo de literal es cada uno de estos: `'7'`, `7`, `"7"`?
+
+<details>
+<summary>Ver respuesta</summary>
+
+- `'7'` — `char` (comillas simples, un solo carácter — este es el carácter del dígito 7, no el número 7).
+- `7` — `int` (número entero, sin comillas).
+- `"7"` — `string` (comillas dobles, aunque contenga solo un dígito).
+
+</details>
+
 ---
 
 ## Parte 4 — Panorama de tipos de datos (25 min)
@@ -209,6 +280,10 @@ C++ tiene varios tipos de datos — en esta sesión vemos un **panorama comparat
 | `unsigned int` | 4 bytes | 0 a ~4,294 millones (sin negativos) |
 
 **¿Cuándo usar `unsigned`?** Cuando sabes que el valor nunca va a ser negativo (por ejemplo, una edad o un conteo de artículos) — ganas rango positivo a cambio de perder la posibilidad de representar negativos. Esto conecta directamente con lo que vimos en la Semana 2 sobre cómo el tamaño en bits determina el rango representable.
+
+**¿Cómo se representa un número negativo con bits, si solo tenemos 1s y 0s?** Fíjate en algo: `int` (con signo) va de aproximadamente -2,147 millones a +2,147 millones — un rango prácticamente simétrico alrededor de 0. Mientras que `unsigned int`, con la misma cantidad de bits (32), va de 0 a ~4,294 millones — el doble de números positivos, pero cero negativos.
+
+Esto no es casualidad: de los 32 bits de un `int`, **un bit se reserva como bit de signo** (0 = positivo, 1 = negativo), dejando 31 bits para el valor en sí. Por eso el rango positivo de un `int` con signo es aproximadamente la mitad del rango de un `unsigned int` del mismo tamaño — literalmente se sacrifica la mitad del espacio de representación a cambio de poder expresar negativos. (El método exacto que usan las computadoras para codificar negativos, llamado *complemento a dos*, lo van a ver con más profundidad en cursos de sistemas/hardware — por ahora, quédate con la idea de que "tener signo" tiene un costo de rango.)
 
 ### `char` — un solo carácter
 
@@ -228,15 +303,21 @@ A diferencia de `char`, un `string` puede contener múltiples caracteres, y sus 
 
 ### Punto flotante — números con decimales
 
-| Tipo | Precisión |
-|---|---|
-| `float` | precisión simple |
-| `double` | precisión doble (el más usado por defecto) |
-| `long double` | mayor precisión aún |
+| Tipo | Tamaño típico | Rango aproximado |
+|---|---|---|
+| `float` | 4 bytes | ±3.4×10⁻³⁸ a ±3.4×10³⁸ |
+| `double` | 8 bytes | ±1.7×10⁻³⁰⁸ a ±1.7×10³⁰⁸ |
+| `long double` | 8 bytes (algunos compiladores usan 10) | igual o mayor que `double` |
 
 ```cpp
 double precio = 19.99;
 ```
+
+**¿Cómo se guarda un número con decimales usando solo bits?** No es tan directo como los enteros. Internamente, C++ almacena un valor flotante de forma parecida a la notación científica: en vez de guardar el número completo, guarda dos partes — una **mantisa** (los dígitos significativos) y un **exponente** (la potencia de 10, o técnicamente de 2, por la que se multiplica).
+
+Por ejemplo, el número 47,281.97 en notación científica es 4.728197 × 10⁴. La computadora guarda algo equivalente a "4.728197" (la mantisa) y "4" (el exponente) por separado, en vez de los dígitos tal cual los ves. Esto es lo mismo que la notación E que quizás hayas visto en calculadoras: `4.728197E4`.
+
+**Por qué esto importa en la práctica:** este método de almacenamiento significa que los flotantes tienen **precisión limitada** — no pueden representar *todos* los números decimales exactamente (por ejemplo, 0.1 no tiene una representación binaria exacta, similar a como 1/3 no tiene una representación decimal exacta). Por eso, comparar dos `double` con `==` directamente puede dar resultados inesperados — es un tema que van a encontrar más adelante en el curso y vale la pena tenerlo presente desde ahora.
 
 ### `bool` — verdadero/falso
 
@@ -264,6 +345,35 @@ Internamente, `true` se representa como `1` y `false` como `0` — vamos a usar 
 
 </details>
 
+**Ejercicios adicionales para practicar por tu cuenta:**
+
+1. Si un `int` con signo de 32 bits reserva 1 bit para el signo, ¿cuántos bits quedan para representar el valor numérico en sí?
+
+<details>
+<summary>Ver respuesta</summary>
+
+**31 bits** — de ahí que el rango positivo máximo sea 2³¹-1 ≈ 2,147,483,647 (el número que viste en la tabla de arriba).
+
+</details>
+
+2. Un programa necesita guardar el saldo de una cuenta bancaria, el cual puede ser negativo (sobregiro). ¿Usarías `int` o `unsigned int`? ¿Por qué?
+
+<details>
+<summary>Ver respuesta</summary>
+
+**`int`** — porque el saldo puede ser negativo, y `unsigned int` no puede representar valores negativos en absoluto (no es que los "recorte", simplemente no existen en ese tipo).
+
+</details>
+
+3. ¿Por qué crees que comparar dos valores `double` calculados por separado con `==` puede fallar, aunque matemáticamente deberían ser iguales? (Pista: piensa en la mantisa/exponente explicados arriba.)
+
+<details>
+<summary>Ver una posible respuesta</summary>
+
+Porque no todos los números decimales tienen una representación binaria exacta con mantisa/exponente — pequeños errores de redondeo pueden hacer que dos cálculos que "deberían" dar el mismo resultado terminen con una diferencia mínima invisible a simple vista, pero suficiente para que `==` los considere distintos.
+
+</details>
+
 ---
 
 ## Parte 5 — `sizeof` y asignación/inicialización (15 min)
@@ -287,6 +397,41 @@ int total = 0;        // declaración + inicialización en una sola línea
 
 **Buena práctica:** siempre inicializa tus variables al declararlas — una variable sin inicializar contiene lo que haya quedado en esa dirección de memoria de antes, lo cual puede causar comportamiento impredecible.
 
+**`sizeof` también funciona sobre variables, no solo tipos:**
+
+```cpp
+int cantidad = 10;
+cout << sizeof(cantidad);   // muestra el tamaño de la variable, no su valor
+```
+
+Esto es útil porque el tamaño exacto de cada tipo **puede variar según el sistema operativo/compilador** — el estándar de C++ solo garantiza tamaños *mínimos* relativos entre tipos (por ejemplo, "un `long` es al menos tan grande como un `int`"), no un número fijo universal. Por eso `sizeof` existe: para que un programa pueda verificar en tiempo real qué tamaños tiene disponibles en la máquina donde corre, en vez de asumir.
+
+**Para practicar por tu cuenta:**
+
+1. Escribe una línea de código que muestre en pantalla el tamaño en bytes de un `double`.
+
+<details>
+<summary>Ver respuesta</summary>
+
+```cpp
+cout << sizeof(double);
+```
+
+</details>
+
+2. ¿Qué diferencia hay entre estas dos líneas?
+```cpp
+int x;
+int y = 0;
+```
+
+<details>
+<summary>Ver respuesta</summary>
+
+`x` está **declarada pero no inicializada** — contiene un valor indeterminado ("basura") hasta que se le asigne algo explícitamente. `y` está **declarada e inicializada** en la misma línea, con el valor `0` desde el inicio.
+
+</details>
+
 ---
 
 ## Parte 6 — Scope (introducción breve) (10 min)
@@ -303,6 +448,43 @@ int main()
 ```
 
 El compilador lee de arriba hacia abajo — si encuentra un nombre que todavía no se ha declarado, marca error. Vamos a retomar este concepto con más profundidad más adelante en el curso, cuando trabajemos con funciones.
+
+**Para practicar por tu cuenta:**
+
+¿Por qué falla este programa? Corrígelo.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    numero = 62.7;
+    double numero;
+    cout << numero << endl;
+    return 0;
+}
+```
+
+<details>
+<summary>Ver respuesta</summary>
+
+`numero` se usa (se le asigna un valor) **antes** de ser declarada — el compilador todavía no sabe que `numero` va a existir cuando llega a esa línea. La corrección es mover la declaración antes del uso:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    double numero;
+    numero = 62.7;
+    cout << numero << endl;
+    return 0;
+}
+```
+
+</details>
 
 ---
 
@@ -346,6 +528,38 @@ resultado = a / b;
 
 </details>
 
+**Ejercicios adicionales para practicar por tu cuenta:**
+
+1. ¿Qué valor da `17 % 5`?
+
+<details>
+<summary>Ver respuesta</summary>
+
+**2** — el operador módulo (`%`) da el residuo de la división entera. 17 ÷ 5 = 3 con residuo 2.
+
+</details>
+
+2. Escribe una expresión que determine si un número entero `n` es par, usando el operador módulo. (Pista: un número es par si el residuo de dividirlo entre 2 es 0.)
+
+<details>
+<summary>Ver respuesta</summary>
+
+```cpp
+n % 2 == 0
+```
+(El operador `==` para comparar lo vamos a formalizar en la Semana 5, pero ya puedes anticipar la lógica.)
+
+</details>
+
+3. ¿Cuál es la diferencia entre `-` como operador binario y `-` como operador unario? Da un ejemplo de cada uno.
+
+<details>
+<summary>Ver respuesta</summary>
+
+Como **operador binario** (dos operandos), resta: `10 - 3` da `7`. Como **operador unario** (un solo operando), niega un valor: `-x` invierte el signo de `x`. El mismo símbolo `-` cumple ambos roles, y C++ decide cuál aplica según el contexto (cuántos operandos hay alrededor).
+
+</details>
+
 ---
 
 ## Parte 8 — Comentarios y constantes nombradas (15 min)
@@ -354,6 +568,14 @@ resultado = a / b;
 
 ```cpp
 // Este programa calcula el area de un circulo
+```
+
+**Comentarios de varias líneas:** `/* ... */` — todo lo que está entre estos símbolos se ignora, sin importar cuántas líneas ocupe.
+
+```cpp
+/* Este programa fue escrito por el equipo 3
+   Fecha: enero 2027
+   Descripcion: calcula el area de un circulo */
 ```
 
 **Por qué importan los comentarios:** aunque no afectan cómo corre el programa, son esenciales para que tú (o cualquier otra persona) entienda el código semanas o meses después. Un programa de miles de líneas sin comentarios es mucho más difícil de mantener o corregir.
@@ -366,6 +588,33 @@ const double PI = 3.14159;
 
 **¿Por qué usar `const` en vez de escribir el número directamente cada vez?** Si el valor aparece en muchos lugares del programa y necesitas cambiarlo, solo lo actualizas en un lugar. Además, si accidentalmente intentas reasignar una variable `const`, el compilador te va a dar un error — protegiéndote de modificar algo que no debería cambiar.
 
+**Para practicar por tu cuenta:**
+
+1. ¿Este comentario es de una línea o de varias?
+```cpp
+/* Este programa fue escrito por M. A. Codewriter */
+```
+
+<details>
+<summary>Ver respuesta</summary>
+
+Usa los símbolos `/* */`, así que técnicamente es la sintaxis de **comentario de varias líneas** — aunque en este caso solo ocupa una línea, la sintaxis permitiría que se extendiera a varias sin necesitar `//` en cada una.
+
+</details>
+
+2. Declara una constante llamada `LIMITE_VELOCIDAD` con el valor `80`, y explica qué pasaría si más adelante en el programa alguien intenta escribir `LIMITE_VELOCIDAD = 100;`.
+
+<details>
+<summary>Ver respuesta</summary>
+
+```cpp
+const int LIMITE_VELOCIDAD = 80;
+```
+
+Esa reasignación posterior (`LIMITE_VELOCIDAD = 100;`) causaría un **error de compilación** — el compilador no permite modificar una variable declarada como `const` después de su inicialización.
+
+</details>
+
 ---
 
 ## Parte 9 — Estilo de programación (10 min)
@@ -376,6 +625,28 @@ Buenas prácticas que vamos a exigir en labs y en el proyecto desde ahora:
 - **Indentación consistente** — el código dentro de `{ }` debe estar alineado, facilita ver la estructura del programa de un vistazo.
 - **Comentarios donde el código no es obvio** — no hace falta comentar cada línea, pero sí las decisiones no evidentes.
 - **Una instrucción por línea** — evita amontonar varias instrucciones separadas por `;` en la misma línea, aunque C++ lo permita.
+
+**Para practicar por tu cuenta:**
+
+Este código funciona, pero no sigue buenas prácticas de estilo. Reescríbelo aplicando lo visto en esta parte:
+
+```cpp
+int a,b;a=5;b=10;cout<<a+b;
+```
+
+<details>
+<summary>Ver una posible respuesta</summary>
+
+```cpp
+int primerNumero, segundoNumero;
+primerNumero = 5;
+segundoNumero = 10;
+cout << primerNumero + segundoNumero;
+```
+
+No hay una única respuesta "correcta" — lo importante es nombres descriptivos, una instrucción por línea, y espaciado legible alrededor de operadores.
+
+</details>
 
 ---
 
