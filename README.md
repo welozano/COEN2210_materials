@@ -15,7 +15,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 |---|---|---|---|
 | 1 | 1 | Introduction | *(pendiente)* |
 | 2 | 2 | Hardware & Number Representation (binary, hex, octal) | [lectures/Semana2_Hardware_Number_Representation.md](lectures/Semana2_Hardware_Number_Representation.md) |
-| 3 | 3 | Introduction to C++ | *(pendiente)* |
+| 3 | 3 | Introduction to C++ | [Semana3_Introduction_to_CPP.md](lectures/Semana3_Introduction_to_CPP.md) |
 | 4 | 4 | Basic programming concepts and elements | *(pendiente)* |
 | 5 | 5 | Control structures — Selection structures | *(pendiente)* |
 | 6 | 6 | Control structures — Repetition structures | *(pendiente)* |
