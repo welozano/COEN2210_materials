@@ -1,6 +1,7 @@
 # Lab 3 — Figuras Geométricas y Arte ASCII
 ## COEN 2210 — Introduction to Programming
 
+**Prof.:** Wilson Lozano
 **Basado en:** Semana 3 — Introduction to C++ (Gaddis, Capítulo 2)
 **Duración:** 110 min
 **Requisitos:** Labs 1 y 2 completados (Git básico + VS Code funcionando)
