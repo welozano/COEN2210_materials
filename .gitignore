@@ -30,3 +30,10 @@ build/
 bin/
 Debug/
 Release/
+
+# Documentos internos - no publicar
+CONTEXT.md
+STYLE_GUIDE.md
+
+# Material con copyright - nunca publicar
+course_sources/
