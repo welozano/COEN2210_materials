@@ -5,7 +5,7 @@
 **Basado en:** Gaddis, *Starting Out with C++: From Control Structures through Objects* — Capítulo 3, "Expressions and Interactivity" (secciones 3.1–3.10)
 
 **Duración:** 170 min (lectura)
-**Precede a:** Lab 4 — trazar expresiones, detectar errores lógicos, entrada con `cin`, `sqrt`, formato de salida y type casting
+**Precede a:** Lab 4 — trazar expresiones, detectar errores lógicos, entrada con `cin`, `sqrt`, formato de salida y explicit casts
 
 ---
 
@@ -15,7 +15,7 @@ Al finalizar esta sesión, el estudiante podrá:
 
 1. Usar `cin` con prompts claros para leer datos del teclado y almacenarlos en variables.
 2. Construir expresiones matemáticas en C++ respetando la precedencia de operadores y los tipos de datos.
-3. Explicar el efecto de la división entera, las conversiones automáticas y `static_cast` en un cálculo.
+3. Explicar el efecto de la división entera, las implicit type conversions y `static_cast` en un cálculo.
 4. Usar `sqrt` de `<cmath>` y manipuladores de `<iomanip>` para producir resultados numéricos correctos y legibles.
 5. Trazar un programa a mano para localizar errores lógicos antes de ejecutarlo.
 
@@ -23,59 +23,63 @@ Al finalizar esta sesión, el estudiante podrá:
 
 ## Parte 1 — Entrada por teclado con `cin` (25 min)
 
-Hasta ahora, los valores de nuestros programas estaban escritos directamente en el código:
+Imagina un programa que calcula la circunferencia de un círculo cuyo radio siempre es 5.4. En ese caso, el valor puede estar escrito directamente en el código:
 
 ```cpp
-const double RADIO = 5.4;
+const double RADIUS = 5.4;  // Fixed radius used by the calculation
 ```
 
-Eso es útil para practicar una fórmula, pero no es interactivo. Un programa se vuelve más útil cuando una persona puede proporcionarle datos mientras corre. Para eso usamos `cin`, el objeto de entrada estándar.
+Eso es útil para practicar una fórmula, pero no es interactivo. Un programa se vuelve más útil cuando una persona puede proporcionarle datos mientras corre. Para eso usamos `cin`, el objeto de **entrada estándar**.
 
-Al igual que `cout`, `cin` está disponible al incluir `<iostream>`. Mientras `cout` usa `<<` para enviar algo hacia la pantalla, `cin` usa `>>` para tomar algo del teclado y guardarlo en una variable.
+En este curso, la entrada estándar normalmente viene del teclado. `cin` recibe datos de esa entrada y el operador `>>` los extrae hacia una variable. Más adelante, al trabajar con archivos, usaremos el mismo patrón `>>` con objetos de archivo; no será `cin` quien lea el archivo, sino un flujo de archivo diferente.
+
+Por ejemplo, supón que queremos registrar la carga académica de un estudiante. El programa necesita pedir la cantidad de créditos y guardarla como un entero:
 
 ```cpp
-int cantidad;
+int credits;  // Stores the student's number of credits
 
-cout << "¿Cuántos créditos estás tomando? ";
-cin >> cantidad;
+cout << "How many credits are you taking? ";  // Prompts the student for input
+cin >> credits;                                // Reads an integer from standard input
 ```
 
 La línea con `cout` se llama un **prompt**: un mensaje que le indica claramente a la persona qué debe escribir. No asumas que el usuario sabe qué dato espera el programa; cada `cin` debe tener un prompt útil antes.
 
-Cuando la persona escribe, por ejemplo, `15` y presiona Enter, `cin` interpreta ese texto como un valor del tipo de la variable y lo guarda en `cantidad`.
+Cuando la persona escribe, por ejemplo, `15` y presiona Enter, `cin` interpreta ese texto como un valor del tipo de la variable y lo guarda en `credits`.
 
 | Parte | Qué ocurre en el ejemplo |
 |---|---|
-| `int cantidad;` | Se reserva una variable para un número entero. |
+| `int credits;` | Se reserva una variable para un número entero. |
 | `cout << ...` | Se muestra una pregunta en pantalla. |
-| `cin >> cantidad;` | Se lee la respuesta y se guarda como `int`. |
+| `cin >> credits;` | Se lee la respuesta y se guarda como `int`. |
 
-### ¿Qué pasa si el tipo no coincide con lo que se escribió?
+### 1.1 — Input type y input buffer
 
-**El tipo importa.** Observa una situación concreta:
+**El tipo importa.** Supón que el programa de inventario de una tienda pide una cantidad de piezas, la cual debe ser entera:
 
 ```cpp
-int cantidad;
+int pieces;  // Stores a whole number of pieces
 
-cout << "Escribe la cantidad de piezas: ";
-cin >> cantidad;
+cout << "Enter the number of pieces: ";  // Asks for a whole-number quantity
+cin >> pieces;                            // Attempts to read an integer
 ```
 
 Si la persona escribe `3.75`, `cin` puede leer la parte entera `3` y dejar `.75` pendiente en el **buffer de entrada**. El buffer es la secuencia de caracteres que el teclado ya entregó al programa, pero que una lectura todavía no ha consumido. No redondea a `4`, ni convierte mágicamente ese dato completo a un entero.
 
 La parte pendiente importa mucho porque la próxima instrucción `cin` la encuentra antes de esperar una respuesta nueva. El resultado depende del tipo de la siguiente variable.
 
-### Si la próxima lectura es un `double`
+### 1.2 — La próxima extracción es hacia un `double`
 
 ```cpp
-int cantidad = 0;
-double medida = 0.0;
+int pieces = 0;         // Stores the whole-number quantity
+double measurement = 0; // Stores a decimal measurement
 
-cout << "Escribe una cantidad entera: ";
-cin >> cantidad;
+cout << "Enter the number of pieces: ";  // First prompt expects an integer
+cin >> pieces;                            // Reads only the integer portion of 3.75
+cout << "Pieces read: " << pieces << endl; // Displays the recovered value: 3
 
-cout << "Escribe una medida decimal: ";
-cin >> medida;
+cout << "Enter a decimal measurement: "; // Second prompt appears on screen
+cin >> measurement;                       // Reads the remaining .75 as 0.75
+cout << "Measurement read: " << measurement << endl; // Displays the recovered value: 0.75
 ```
 
 Si la persona responde `3.75` al primer prompt, ocurre esta secuencia:
@@ -83,60 +87,63 @@ Si la persona responde `3.75` al primer prompt, ocurre esta secuencia:
 | Momento | Variable | Valor | Buffer de entrada |
 |---|---|---:|---|
 | Después de escribir `3.75` | — | — | `3.75` |
-| Después de `cin >> cantidad` | `cantidad` | `3` | `.75` |
-| Después de `cin >> medida` | `medida` | `0.75` | vacío |
+| Después de `cin >> pieces` | `pieces` | `3` | `.75` |
+| Después de `cin >> measurement` | `measurement` | `0.75` | vacío |
 
 El segundo `cin` no espera que la persona escriba otra medida: toma automáticamente `.75` que quedó pendiente. La pantalla puede mostrar el segundo prompt, pero el programa parece "saltárselo" porque ya había texto disponible en el buffer.
 
-### Si la próxima lectura es otro `int`
+### 1.3 — La próxima extracción es hacia otro `int`
 
 ```cpp
-int cantidad = 0;
-int siguienteCantidad = 0;
+int pieces = 0;       // Stores the first whole-number quantity
+int nextPieces = 0;   // Starts at zero so its value is observable after failure
 
-cout << "Escribe una cantidad entera: ";
-cin >> cantidad;
+cout << "Enter the number of pieces: ";      // First prompt expects an integer
+cin >> pieces;                                // Leaves .75 after reading 3
+cout << "Pieces read: " << pieces << endl;   // Displays the recovered value: 3
 
-cout << "Escribe otra cantidad entera: ";
-cin >> siguienteCantidad;
+cout << "Enter another number of pieces: "; // Second prompt also expects an integer
+cin >> nextPieces;                            // Fails because .75 cannot begin an integer
+cout << "Next pieces read: " << nextPieces << endl; // Displays its unchanged value: 0
 ```
 
-Con la entrada inicial `3.75`, el primer `cin` vuelve a guardar `3` y deja `.75`. Pero `.75` no es el inicio válido de un entero, así que el segundo `cin` falla. `siguienteCantidad` conserva el valor que ya tenía (`0` en este ejemplo) y el flujo de entrada queda en estado de error. Las lecturas posteriores con `cin >> ...` también fallarán hasta que el programa limpie ese estado y descarte la entrada problemática, una técnica que veremos cuando estudiemos validación de datos.
+Con la entrada inicial `3.75`, el primer `cin` vuelve a guardar `3` y deja `.75`. Pero `.75` no es el inicio válido de un entero, así que el segundo `cin` falla. `nextPieces` conserva el valor que ya tenía (`0` en este ejemplo) y el flujo de entrada queda en estado de error. Las lecturas posteriores con `cin >> ...` también fallarán hasta que el programa limpie ese estado y descarte la entrada problemática, una técnica que veremos cuando estudiemos validación de datos.
 
 Este es un error común porque el mensaje de la segunda pregunta sí aparece, pero el programa no se detiene a esperar una respuesta. Cuando un programa "ignora" una entrada, revisa primero si una lectura anterior consumió solo parte de lo escrito.
 
-Si el dato puede tener decimales, declara un `double` desde el principio:
+Por ejemplo, una estación meteorológica que registra una temperatura debe declarar un `double` desde el principio:
 
 ```cpp
-double temperatura;
+double temperature;  // Stores a value that may include decimals
 
-cout << "Escribe la temperatura en grados Celsius: ";
-cin >> temperatura;
-cout << "La temperatura registrada es " << temperatura << " grados.\n";
+cout << "Enter the temperature in Celsius: "; // Prompts for a decimal value
+cin >> temperature;                            // Reads the complete decimal input
+cout << "Recorded temperature: " << temperature // Displays the stored value
+     << " degrees.\n";
 ```
 
-### Conversión de entrada, conversión automática y casting
+### 1.4 — Input extraction, implicit conversion y explicit cast
 
-En programación usamos la palabra **conversión** para varios procesos relacionados, pero no son exactamente lo mismo:
+En C++, varios procesos relacionados con los tipos tienen nombres técnicos distintos:
 
 | Proceso | Cuándo sucede | Ejemplo |
 |---|---|---|
-| Conversión de entrada | `cin` interpreta texto escrito por la persona. | Los caracteres `"27"` se guardan como el `int` `27`. |
-| Conversión automática | C++ adapta tipos compatibles durante una expresión. | En `3 * 2.5`, el `3` se trata temporalmente como decimal. |
-| **Casting** explícito | El programador pide una conversión concreta en código. | `static_cast<double>(puntos)` |
+| **Input extraction** | `cin` interpreta texto escrito por la persona. | Los caracteres `"27"` se guardan como el `int` `27`. |
+| **Implicit type conversion** | C++ adapta tipos compatibles durante una expresión. | En `3 * 2.5`, el `3` se trata temporalmente como decimal. |
+| **Explicit cast** | El programador solicita un type conversion concreto en código. | `static_cast<double>(points)` |
 
-Un **cast** no cambia el tipo declarado de la variable original. Crea un valor convertido para la operación que se está realizando. Por ejemplo, si `puntos` es `int`, `static_cast<double>(puntos)` usa una versión decimal de ese valor; `puntos` sigue siendo `int`. Veremos el mecanismo y la razón de usarlo para evitar división entera en la Parte 3.
+Un **explicit cast** no cambia el tipo declarado de la variable original. Crea un valor convertido para la operación que se está realizando. Por ejemplo, si `points` es `int`, `static_cast<double>(points)` usa una versión decimal de ese valor; `points` sigue siendo `int`. Veremos el mecanismo y la razón de usarlo para evitar división entera en la Parte 3.
 
-También puedes leer varias variables con una sola instrucción. La persona debe escribir los datos en el mismo orden, separados por espacios o por Enter:
+Considera ahora un programa para calcular el área de un salón. Necesita dos dimensiones; la persona puede escribirlas en el mismo orden, separadas por espacios o por Enter:
 
 ```cpp
-double largo, ancho;
+double length, width;  // Store the room dimensions
 
-cout << "Escribe el largo y el ancho del salón: ";
-cin >> largo >> ancho;
+cout << "Enter the room length and width: "; // Explains the required input order
+cin >> length >> width;                       // Reads both decimal values in order
 ```
 
-Si se escribe `8.5 6`, `largo` recibe `8.5` y `ancho` recibe `6`. El orden de las variables es parte del contrato del programa.
+Si se escribe `8.5 6`, `length` recibe `8.5` y `width` recibe `6`. El primer valor ingresado se guarda en la primera variable y el segundo en la segunda; por eso el orden debe coincidir con el prompt.
 
 **Para practicar por tu cuenta:**
 
@@ -149,9 +156,9 @@ Si se escribe `8.5 6`, `largo` recibe `8.5` y `ancho` recibe `6`. El orden de la
 <details>
 <summary>Ver una posible respuesta</summary>
 
-1. `int libros;` y `cout << "¿Cuántos libros prestaste? ";`
-2. `double costo;` y `cout << "Escribe el costo de la pieza: $";`
-3. `char seccion;` y `cout << "Escribe la inicial de tu sección: ";`
+1. `int borrowedBooks;` y `cout << "How many books did you borrow? ";`
+2. `double partCost;` y `cout << "Enter the part cost: $";`
+3. `char section;` y `cout << "Enter your section initial: ";`
 
 Hay otros prompts válidos si expresan con claridad el dato esperado.
 
@@ -161,25 +168,29 @@ Hay otros prompts válidos si expresan con claridad el dato esperado.
 
 ## Parte 2 — Expresiones, precedencia y repaso aplicado (20 min)
 
-Una **expresión** es cualquier combinación de literales, variables y operadores que produce un valor. Una variable sola es una expresión; `7.5` también lo es; `largo * ancho` es una expresión matemática.
+### 2.1 — Mathematical expressions
+
+Una **expression** es cualquier combinación de literales, variables y operadores que produce un valor. Una variable sola es una expression; `7.5` también lo es; `length * width` es una expresión matemática.
+
+Por ejemplo, después de leer las dimensiones de una pared, un programa necesita multiplicarlas para calcular el área que se pintará:
 
 ```cpp
-double area;
-area = largo * ancho;
+double area;              // Stores the wall area in square units
+area = length * width;    // Multiplies the previously entered dimensions
 ```
 
 La computadora no interpreta álgebra como una persona. Debes escribir explícitamente cada multiplicación y traducir con cuidado los paréntesis.
 
 | Matemática | C++ |
 |---|---|
-| área = largo × ancho | `area = largo * ancho;` |
-| perímetro = 2(largo + ancho) | `perimetro = 2 * (largo + ancho);` |
-| promedio = suma / cantidad | `promedio = suma / cantidad;` |
-| pendiente = (y₂ − y₁) / (x₂ − x₁) | `pendiente = (y2 - y1) / (x2 - x1);` |
+| área = largo × ancho | `area = length * width;` |
+| perímetro = 2(largo + ancho) | `perimeter = 2 * (length + width);` |
+| promedio = suma / cantidad | `average = sum / count;` |
+| pendiente = (y₂ − y₁) / (x₂ − x₁) | `slope = (y2 - y1) / (x2 - x1);` |
 
-No existe un operador de exponenciación `^` para elevar números al cuadrado en C++. Ese símbolo se usa para otra operación que veremos mucho más adelante. Por ahora, un cuadrado se puede expresar multiplicando el valor por sí mismo: `lado * lado`. También veremos `pow` y `sqrt` más adelante en esta misma sesión.
+No existe un operador de exponenciación `^` para elevar números al cuadrado en C++. Ese símbolo se usa para otra operación que veremos mucho más adelante. Por ahora, un cuadrado se puede expresar multiplicando el valor por sí mismo: `side * side`. También veremos `pow` y `sqrt` más adelante en esta misma sesión.
 
-### Precedencia y asociatividad
+### 2.2 — Precedence y associativity
 
 C++ sigue un orden de operaciones parecido al de matemáticas:
 
@@ -188,106 +199,110 @@ C++ sigue un orden de operaciones parecido al de matemáticas:
 3. Multiplicación, división y residuo: `*`, `/`, `%`, de izquierda a derecha.
 4. Suma y resta: `+`, `-`, de izquierda a derecha.
 
-Observa la diferencia:
+Supón que un programa debe combinar varios costos y descuentos. Los paréntesis cambian el resultado de su expresión:
 
 ```cpp
-int resultado1 = 2 + 2 * 2 - 2;       // 4
-int resultado2 = (2 + 2) * 2 - 2;     // 6
-int resultado3 = 2 + 2 * (2 - 2);     // 2
+int result1 = 2 + 2 * 2 - 2;       // Evaluates multiplication first: 4
+int result2 = (2 + 2) * 2 - 2;     // Evaluates parentheses first: 6
+int result3 = 2 + 2 * (2 - 2);     // Evaluates inner parentheses first: 2
 ```
 
 Los paréntesis no son solo para el compilador: también ayudan a otra persona a leer tu intención. Cuando una fórmula tenga varias operaciones, es preferible usar paréntesis aunque conozcas la precedencia.
 
-### Repaso aplicado: división entera
+### 2.3 — Repaso aplicado: integer division
 
-En la Semana 3 conociste los operadores aritméticos, el módulo (`%`) y la división entera. Aquí los usaremos para leer expresiones completas y anticipar errores lógicos. Por ejemplo:
+En la Semana 3 conociste los operadores aritméticos, el módulo (`%`) y la división entera. Aquí los usaremos para leer expresiones completas y anticipar errores lógicos. Supón que siete piezas se reparten por igual en dos cajas:
 
 ```cpp
-int piezas = 7;
-int cajas = 2;
+int pieces = 7;  // Total number of pieces to distribute
+int boxes = 2;   // Number of boxes receiving the pieces
 
-cout << piezas / cajas << endl;
+cout << pieces / boxes << endl;  // Displays 3 because integer division truncates
 ```
 
 La salida es `3`, no `3.5`. Como ambos operandos son `int`, C++ hace **división entera**: elimina la parte decimal. La variable que recibe el resultado no cambia esta decisión; lo que decide la operación son los tipos de los valores a ambos lados de `/`.
 
 ```cpp
-double promedio;
-int puntos = 17;
-int estudiantes = 4;
+double average;  // Intended to store a decimal average
+int points = 17; // Total points earned
+int students = 4; // Number of students
 
-promedio = puntos / estudiantes;  // guarda 4.0, no 4.25
+average = points / students;  // Stores 4.0, not 4.25, after integer division
 ```
 
 En la próxima parte veremos cómo corregirlo de forma intencional con `static_cast`. La idea importante no es memorizar otra vez la definición de `/`, sino identificar el tipo de los operandos **antes** de confiar en el resultado de una fórmula.
 
 **Para practicar por tu cuenta:**
 
-Calcula a mano el resultado de cada expresión antes de verificarlo en C++:
+Calcula a mano el resultado de cada expresión antes de verificarlo en C++. Estas podrían ser expresiones usadas por un programa de inventario:
 
-1. `18 / 5`
-2. `18 % 5`
-3. `4 + 3 * 5`
-4. `(4 + 3) * 5`
+```cpp
+int quotient = 18 / 5;            // Integer division result
+int remainder = 18 % 5;           // Remaining items after division
+int totalWithoutParentheses = 4 + 3 * 5; // Multiplication has higher precedence
+int totalWithParentheses = (4 + 3) * 5;  // Parentheses change the order
+```
 
 <details>
 <summary>Ver respuesta</summary>
 
-1. `3` — la división es entera.
-2. `3` — el residuo de 18 dividido entre 5.
-3. `19` — primero `3 * 5`.
-4. `35` — los paréntesis cambian el orden.
+1. `quotient` vale `3` — la división es entera.
+2. `remainder` vale `3` — es el residuo de 18 dividido entre 5.
+3. `totalWithoutParentheses` vale `19` — primero `3 * 5`.
+4. `totalWithParentheses` vale `35` — los paréntesis cambian el orden.
 
 </details>
 
 ---
 
-## Parte 3 — Conversión de tipos y `static_cast` (20 min)
+## Parte 3 — Type Conversion y `static_cast` (20 min)
 
-En ocasiones una expresión mezcla tipos. C++ realiza conversiones automáticas para poder operar, pero conviene entenderlas porque pueden cambiar un resultado.
+### 3.1 — Implicit type conversion
 
-```cpp
-int unidades = 3;
-double precio = 2.50;
-double total = unidades * precio;
-```
-
-Para multiplicar, C++ convierte temporalmente `unidades` a `double`. El resultado es `7.5`, que se guarda correctamente en `total`.
-
-La conversión puede ser problemática en la dirección contraria:
+En ocasiones una expression mezcla tipos. Supón que una tienda multiplica una cantidad entera de artículos por un precio decimal. C++ realiza **implicit type conversions** para poder operar, pero conviene entenderlas porque pueden cambiar un resultado.
 
 ```cpp
-double medida = 9.8;
-int medidaEntera = medida;
+int units = 3;          // Number of items is a whole number
+double price = 2.50;    // Unit price includes cents
+double total = units * price; // C++ promotes units for decimal multiplication
 ```
 
-`medidaEntera` termina con `9`. Al pasar de `double` a `int`, se descarta la parte decimal; no se redondea automáticamente.
+Para multiplicar, C++ convierte temporalmente `units` a `double`. El resultado es `7.5`, que se guarda correctamente en `total`.
 
-### Forzar una conversión intencionalmente
-
-Para obtener un promedio decimal a partir de dos enteros, convierte uno de los operandos **antes** de dividir:
+Una **narrowing conversion** puede ser problemática en la dirección contraria. Por ejemplo, si un sensor registra una medida decimal y el programa la guarda en una variable entera:
 
 ```cpp
-int puntos = 17;
-int estudiantes = 4;
-double promedio;
-
-promedio = static_cast<double>(puntos) / estudiantes;
-cout << promedio << endl;  // 4.25
+double measurement = 9.8;       // Original value includes a decimal part
+int wholeMeasurement = measurement; // Assignment discards the decimal part
 ```
 
-`static_cast<double>(puntos)` crea una versión temporal de `puntos` como `double`; no cambia el valor ni el tipo original de `puntos`. Ahora uno de los operandos es `double`, así que la división se hace con decimales.
+`wholeMeasurement` termina con `9`. Al pasar de `double` a `int`, se descarta la parte decimal; no se redondea automáticamente.
 
-El estilo antiguo `(double)puntos` también puede aparecer en código existente — de hecho, lo vieron en el Lab 2 al mostrar un `unsigned char` como número — pero a partir de ahora preferiremos `static_cast<tipo>(valor)` porque hace la intención más visible.
+### 3.2 — Explicit cast con `static_cast`
+
+Para obtener el promedio decimal de los puntos de cuatro estudiantes, aplica un **explicit cast** a uno de los operands **antes** de dividir:
+
+```cpp
+int points = 17;        // Total points to average
+int students = 4;       // Number of students
+double average;         // Stores the decimal average
+
+average = static_cast<double>(points) / students; // Converts before division
+cout << average << endl;                           // Displays 4.25
+```
+
+`static_cast<double>(points)` crea una versión temporal de `points` como `double`; no cambia el valor ni el tipo original de `points`. Ahora uno de los operands es `double`, así que la división se hace con decimales.
+
+El estilo antiguo `(double)points` también puede aparecer en código existente — de hecho, lo vieron en el Lab 2 al mostrar un `unsigned char` como número — pero a partir de ahora preferiremos `static_cast<type>(value)` porque hace la intención más visible.
 
 **Regla para recordar:** convierte antes de la operación cuyo resultado necesitas cambiar, no después.
 
 ```cpp
-double incorrecto = static_cast<double>(17 / 4);  // 4.0: ya se perdió .25
-double correcto = static_cast<double>(17) / 4;    // 4.25
+double incorrect = static_cast<double>(17 / 4); // Cast happens after losing .25
+double correct = static_cast<double>(17) / 4;   // Cast happens before division: 4.25
 ```
 
-### Overflow y underflow
+### 3.3 — Overflow y underflow
 
 Cada tipo puede guardar solo un rango limitado de valores. Si un resultado es mayor que el máximo que cabe, ocurre **overflow**; si es menor que el mínimo representable, ocurre **underflow**. El resultado puede depender del tipo y del sistema, por lo que no debemos diseñar programas que dependan de ese comportamiento.
 
@@ -298,14 +313,14 @@ Esto conecta con el Lab 2: un `unsigned char` solo tiene espacio para valores de
 ¿Cuál de estas dos líneas calcula correctamente un promedio de 13 puntos entre 2 tareas? Explica por qué.
 
 ```cpp
-double a = 13 / 2;
-double b = static_cast<double>(13) / 2;
+double truncatedAverage = 13 / 2;                // Integer division produces 6.0
+double decimalAverage = static_cast<double>(13) / 2; // Decimal division produces 6.5
 ```
 
 <details>
 <summary>Ver respuesta</summary>
 
-`b` calcula el promedio correctamente: vale `6.5`. En `a`, ambos operandos son enteros, por lo que `13 / 2` se calcula primero como `6`; después ese `6` se convierte a `double` y queda `6.0`.
+`decimalAverage` calcula el promedio correctamente: vale `6.5`. En `truncatedAverage`, ambos operandos son enteros, por lo que `13 / 2` se calcula primero como `6`; después ese `6` se convierte a `double` y queda `6.0`.
 
 </details>
 
@@ -321,24 +336,26 @@ Para un triángulo rectángulo, el teorema de Pitágoras dice:
 h = \sqrt{a^2 + b^2}
 \]
 
-En C++, traducimos cada parte de la fórmula de manera explícita. Usamos `a * a` y `b * b` para los cuadrados, y `sqrt(...)` para la raíz:
+### 4.1 — Mathematical library functions
+
+Para resolver un problema concreto, supón que un técnico necesita calcular el cable mínimo para conectar dos puntos separados por los catetos de un triángulo rectángulo. En C++, traducimos cada parte de la fórmula de manera explícita. Usamos `legA * legA` y `legB * legB` para los cuadrados, y `sqrt(...)` para la raíz:
 
 ```cpp
-#include <iostream>
-#include <cmath>
+#include <iostream> // Enables standard input and output
+#include <cmath>    // Declares sqrt
 using namespace std;
 
 int main()
 {
-    double catetoA, catetoB, hipotenusa;
+    double legA, legB, hypotenuse; // Store the triangle side lengths
 
-    cout << "Escribe los dos catetos del triangulo: ";
-    cin >> catetoA >> catetoB;
+    cout << "Enter the two triangle legs: "; // Explains the required measurements
+    cin >> legA >> legB;                      // Reads both decimal side lengths
 
-    hipotenusa = sqrt(catetoA * catetoA + catetoB * catetoB);
+    hypotenuse = sqrt(legA * legA + legB * legB); // Applies the Pythagorean theorem
 
-    cout << "La hipotenusa es " << hipotenusa << endl;
-    return 0;
+    cout << "The hypotenuse is " << hypotenuse << endl; // Displays the calculated cable length
+    return 0;                                            // Ends the program successfully
 }
 ```
 
@@ -369,10 +386,12 @@ Si los catetos miden 5 y 12, ¿cuál debe ser la hipotenusa? Traza primero la f�
 
 ## Parte 5 — Formato de salida numérica (15 min)
 
-Un programa puede calcular correctamente y aun así comunicar mal su resultado. Por ejemplo, mostrar demasiados decimales para un precio distrae y parece poco profesional. Los manipuladores de `<iomanip>` permiten controlar el formato de `cout`.
+### 5.1 — Output formatting
+
+Un programa puede calcular correctamente y aun así comunicar mal su resultado. Por ejemplo, mostrar demasiados decimales para un precio distrae y parece poco profesional. Los manipuladores de `<iomanip>` permiten controlar el formato de `cout`. Para un informe de costos, queremos mostrar siempre dos decimales, incluso si el valor es exacto; el programa necesita esta biblioteca:
 
 ```cpp
-#include <iomanip>
+#include <iomanip> // Declares output manipulators such as setprecision
 ```
 
 Los tres manipuladores más útiles en este momento son:
@@ -384,18 +403,18 @@ Los tres manipuladores más útiles en este momento son:
 | `showpoint` | Muestra el punto decimal aun cuando el valor no tenga fracción visible. |
 
 ```cpp
-double costo = 7.5;
-double total = 15.0;
+double cost = 7.5;   // Price of one item
+double total = 15.0; // Final amount to display
 
-cout << fixed << setprecision(2);
-cout << "Costo: $" << costo << endl;
-cout << "Total: $" << total << endl;
+cout << fixed << setprecision(2);     // Keeps two digits after the decimal point
+cout << "Cost: $" << cost << endl;   // Displays 7.50 for a price
+cout << "Total: $" << total << endl; // Displays 15.00 for the final amount
 ```
 
 La salida es:
 
 ```
-Costo: $7.50
+Cost: $7.50
 Total: $15.00
 ```
 
@@ -403,17 +422,17 @@ Total: $15.00
 
 **Para practicar por tu cuenta:**
 
-¿Qué incluye falta en este programa para que compile y muestre el promedio con tres decimales?
+Un programa de calificaciones necesita mostrar un promedio con tres decimales. ¿Qué `#include` falta para que compile?
 
 ```cpp
-#include <iostream>
+#include <iostream> // Enables cout
 using namespace std;
 
 int main()
 {
-    double promedio = 91.375;
-    cout << fixed << setprecision(3) << promedio << endl;
-    return 0;
+    double average = 91.375;                    // Sample grade average
+    cout << fixed << setprecision(3) << average << endl; // Formats the average
+    return 0;                                   // Ends the program successfully
 }
 ```
 
@@ -428,38 +447,42 @@ Falta `#include <iomanip>`, porque ahí se declara `setprecision`.
 
 ## Parte 6 — Asignación combinada y texto breve (10 min)
 
-Hay una forma compacta de actualizar una variable usando el resultado que ya tiene:
+### 6.1 — Combined assignment
+
+Supón que un carrito de compra ya contiene 10 artículos y el cliente agrega 3 más. Hay una forma compacta de actualizar la variable usando el resultado que ya tiene:
 
 ```cpp
-int total = 10;
-total = total + 3;
+int totalItems = 10;         // Items already in the shopping cart
+totalItems = totalItems + 3; // Adds the three new items
 ```
 
 Esto equivale a:
 
 ```cpp
-total += 3;
+totalItems += 3; // Adds three items to the existing total
 ```
 
 Existen operadores combinados para las operaciones aritméticas que ya conocen:
 
 | Forma larga | Forma combinada |
 |---|---|
-| `saldo = saldo + deposito;` | `saldo += deposito;` |
-| `vidas = vidas - 1;` | `vidas -= 1;` |
+| `balance = balance + deposit;` | `balance += deposit;` |
+| `lives = lives - 1;` | `lives -= 1;` |
 | `total = total * 2;` | `total *= 2;` |
-| `mitad = mitad / 2;` | `mitad /= 2;` |
+| `half = half / 2;` | `half /= 2;` |
 
-No uses una forma combinada solo por hacer el código más corto. Úsala cuando conserve o aumente la claridad. Por ejemplo, `contador += 1;` expresa claramente que el contador aumenta una unidad.
+No uses una forma combinada solo por hacer el código más corto. Úsala cuando conserve o aumente la claridad. Por ejemplo, `counter += 1;` expresa claramente que el contador aumenta una unidad.
 
-También puedes asignar el mismo valor inicial a variables del mismo tipo:
+### 6.2 — Multiple assignment e initialization
+
+Para iniciar el conteo de problemas encontrados al revisar un programa, puedes asignar el mismo valor inicial a variables del mismo tipo:
 
 ```cpp
-int errores = 0;
-int advertencias = 0;
+int errors = 0;   // Counts errors found during review
+int warnings = 0; // Counts warnings found during review
 ```
 
-Aunque `errores = advertencias = 0;` es válido después de declarar ambas variables, para este curso preferiremos declaraciones claras en líneas separadas cuando los nombres representan ideas diferentes.
+Aunque `errors = warnings = 0;` es válido después de declarar ambas variables, para este curso preferiremos declaraciones claras en líneas separadas cuando los nombres representan ideas diferentes.
 
 ---
 
@@ -469,33 +492,35 @@ Un programa puede compilar y correr sin producir la respuesta correcta. Eso es u
 
 Una herramienta sencilla para encontrar estos errores es el **trazado a mano**. Consiste en actuar como la computadora: avanzar instrucción por instrucción y anotar cómo cambian las variables.
 
-Examina este programa, que intenta calcular el precio final de varias libretas:
+### 7.1 — Hand tracing
+
+Examina este programa, que intenta calcular el precio final de varias libretas. El problema indica que el descuento es 10%, pero el cálculo contiene un error lógico:
 
 ```cpp
-int cantidad = 4;
-double precioUnitario = 2.75;
-double descuento = 0.10;
+int quantity = 4;             // Number of notebooks purchased
+double unitPrice = 2.75;      // Price of each notebook
+double discountRate = 0.10;   // Represents a 10 percent discount
 
-double subtotal = cantidad * precioUnitario;
-double total = subtotal - descuento;
+double subtotal = quantity * unitPrice; // Calculates the amount before discount
+double total = subtotal - discountRate; // Incorrectly subtracts ten cents
 ```
 
-El código compila, pero el descuento se está tratando como si fuera diez centavos. Si `descuento` representa 10%, primero hay que calcular la cantidad descontada.
+El código compila, pero el descuento se está tratando como si fuera diez centavos. Si `discountRate` representa 10%, primero hay que calcular la cantidad descontada.
 
-| Línea ejecutada | `cantidad` | `precioUnitario` | `subtotal` | `descuento` | `total` |
+| Línea ejecutada | `quantity` | `unitPrice` | `subtotal` | `discountRate` | `total` |
 |---|---:|---:|---:|---:|---:|
 | después de las declaraciones | 4 | 2.75 | — | 0.10 | — |
 | `subtotal = ...` | 4 | 2.75 | 11.00 | 0.10 | — |
-| `total = subtotal - descuento` | 4 | 2.75 | 11.00 | 0.10 | 10.90 |
+| `total = subtotal - discountRate` | 4 | 2.75 | 11.00 | 0.10 | 10.90 |
 
 El resultado esperado para 10% de descuento es `9.90`, no `10.90`. Una corrección posible es:
 
 ```cpp
-double montoDescuento = subtotal * descuento;
-double total = subtotal - montoDescuento;
+double discountAmount = subtotal * discountRate; // Calculates ten percent of the subtotal
+double total = subtotal - discountAmount;        // Subtracts the calculated discount
 ```
 
-### Método de trazado
+### 7.2 — Hand-tracing method
 
 1. Escribe los valores iniciales de todas las variables.
 2. Lee una instrucción ejecutable a la vez, de arriba hacia abajo.
@@ -503,41 +528,43 @@ double total = subtotal - montoDescuento;
 4. Anota el nuevo valor en una tabla.
 5. Compara el resultado final con un valor que puedas verificar a mano.
 
-El trazado también permite detectar división entera. Por ejemplo:
+El trazado también permite detectar división entera. Por ejemplo, supón que 25 puntos se distribuyen entre 4 tareas:
 
 ```cpp
-int totalPuntos = 25;
-int tareas = 4;
-double promedio = totalPuntos / tareas;
+int totalPoints = 25;        // Total points earned
+int assignments = 4;         // Number of assignments
+double average = totalPoints / assignments; // Integer division happens before assignment
 ```
 
-| Paso | `totalPuntos` | `tareas` | Expresión calculada | `promedio` |
+| Paso | `totalPoints` | `assignments` | Expresión calculada | `average` |
 |---|---:|---:|---:|---:|
 | inicialización | 25 | 4 | — | — |
-| asignación de `promedio` | 25 | 4 | `25 / 4` = `6` | 6.0 |
+| asignación de `average` | 25 | 4 | `25 / 4` = `6` | 6.0 |
 
-El tipo de `promedio` no recupera el `.25` que se perdió durante la división. La corrección es convertir uno de los operandos antes de dividir.
+El tipo de `average` no recupera el `.25` que se perdió durante la división. La corrección es convertir uno de los operandos antes de dividir.
 
 **Para practicar por tu cuenta:**
 
-Traza el siguiente código y determina el valor final de `resultado`. Luego identifica el error lógico si la intención era calcular 20% de descuento sobre `50.0`.
+Una tienda aplica un 20% de descuento sobre un artículo de `$50.00`. Traza el siguiente código y determina el valor final de `result`; luego identifica el error lógico.
 
 ```cpp
-double precio = 50.0;
-double tasaDescuento = 20;
-double resultado = precio - tasaDescuento;
+double price = 50.0;     // Original item price
+double discountRate = 20; // Intended percentage, but stored incorrectly
+double result = price - discountRate; // Incorrectly subtracts 20 dollars
 ```
 
 <details>
 <summary>Ver respuesta</summary>
 
-`resultado` vale `30.0`. El programa restó 20 dólares, no 20%. Una posible corrección es guardar la tasa como `0.20` y calcular primero `precio * tasaDescuento`.
+`result` vale `30.0`. El programa restó 20 dólares, no 20%. Una posible corrección es guardar la tasa como `0.20` y calcular primero `price * discountRate`.
 
 </details>
 
 ---
 
 ## Parte 8 — Conectar entrada, proceso y salida (15 min)
+
+### 8.1 — IPO model
 
 La mayoría de los programas de esta etapa siguen el patrón **IPO**:
 
@@ -552,32 +579,32 @@ Antes de escribir código, organiza el problema. Supón que queremos calcular cu
 | Elemento | Diseño |
 |---|---|
 | Entrada | distancia en kilómetros y velocidad en km/h |
-| Proceso | tiempo = distancia / velocidad |
+| Proceso | `time = distance / speed` |
 | Salida | tiempo estimado en horas, con dos decimales |
 
-Un programa original que implementa ese diseño sería:
+Un programa original que implementa ese diseño pide primero las dos entradas, calcula el tiempo y muestra el resultado formateado:
 
 ```cpp
-#include <iostream>
-#include <iomanip>
+#include <iostream> // Enables standard input and output
+#include <iomanip>  // Declares fixed and setprecision
 using namespace std;
 
 int main()
 {
-    double distancia, velocidad, tiempo;
+    double distance, speed, time; // Store the trip data and calculated duration
 
-    cout << "Escribe la distancia en kilometros: ";
-    cin >> distancia;
+    cout << "Enter the distance in kilometers: "; // Prompts for the trip distance
+    cin >> distance;                              // Reads the distance from standard input
 
-    cout << "Escribe la velocidad en km/h: ";
-    cin >> velocidad;
+    cout << "Enter the speed in km/h: ";          // Prompts for the travel speed
+    cin >> speed;                                 // Reads the speed from standard input
 
-    tiempo = distancia / velocidad;
+    time = distance / speed;                      // Calculates time in hours
 
-    cout << fixed << setprecision(2);
-    cout << "Tiempo estimado: " << tiempo << " horas" << endl;
+    cout << fixed << setprecision(2);             // Formats decimal output to two places
+    cout << "Estimated time: " << time << " hours" << endl; // Displays the result
 
-    return 0;
+    return 0;                                     // Ends the program successfully
 }
 ```
 
@@ -591,7 +618,7 @@ Diseña las tres partes IPO para un programa que reciba el largo y ancho de una 
 <summary>Ver una posible respuesta</summary>
 
 - **Entrada:** largo y ancho de la pared, ambos como `double`.
-- **Proceso:** área = largo × ancho.
+- **Proceso:** `area = length * width`.
 - **Salida:** el área en metros cuadrados, posiblemente con dos decimales.
 
 </details>
@@ -602,7 +629,7 @@ Diseña las tres partes IPO para un programa que reciba el largo y ancho de una 
 
 - `cin >> variable;` lee un dato del teclado; un prompt claro con `cout` debe indicarle al usuario qué escribir.
 - Las expresiones obedecen precedencia; los paréntesis hacen explícita la intención matemática.
-- La división entre enteros trunca. `static_cast<double>(valor)` debe ocurrir antes de dividir si necesitas decimales.
+- La división entre enteros trunca. `static_cast<double>(value)` debe ocurrir antes de dividir si necesitas decimales.
 - `<cmath>` da acceso a funciones como `sqrt`; `<iomanip>` permite usar `fixed` y `setprecision`.
 - Un trazado a mano muestra cómo cambian las variables y ayuda a localizar errores lógicos que el compilador no detecta.
 - Antes de programar, separa entrada, proceso y salida.
