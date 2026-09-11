@@ -17,7 +17,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 2 | 2 | Hardware & Number Representation (binary, hex, octal) | [Semana2_Hardware_Number_Representation.md](lectures/Semana2_Hardware_Number_Representation.md) |
 | 3 | 3 | Introduction to C++ | [Semana3_Introduction_to_CPP.md](lectures/Semana3_Introduction_to_CPP.md) |
 | 4 | 4 | Basic programming concepts and elements | [Semana4_Basic_Programming_Concepts.md](lectures/Semana4_Basic_Programming_Concepts.md) |
-| 5 | 5 | Control structures — Selection structures | *(pendiente)* |
+| 5 | 5 | Control structures — Selection structures | [Semana5_Selection_Structures.md](lectures/Semana5_Selection_Structures.md) |
 | 6 | 6 | Control structures — Repetition structures | *(pendiente)* |
 | 7 | 7 | Review + Midterm 1 | *(pendiente)* |
 | 8 | 8-9 | Functions | *(pendiente)* |
@@ -34,8 +34,8 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 1 | 1 | Git y GitHub desde la consola | [Lab1 Git-GitHub - Consola](labs/Lab1_Git_GitHub_Consola.md) |
 | 2 | 2 | VS Code + Git/GitHub desde el IDE | [Lab2 VSCode - Git - Representacion Numerica](labs/Lab2_VSCode_Git_Representacion_Numerica.md) |
 | 3 | 3 | Compilar/correr programas, leer errores del compilador | [Lab3 Intro to CPP](labs/Lab3_Figuras_ASCII.md) |
-| 4 | 4 | Trazar expresiones, detectar errores lógicos | *(pendiente)* |
-| 5 | 5 | If-else structures | *(pendiente)* |
+| 4 | 4 | No se ofreció: la sesión se usó para impartir la lecture de Semana 4, desplazada por el feriado del lunes. | *(no aplica)* |
+| 5 | 5 | If-else structures y `switch` | *(pendiente)* |
 | 6 | 6 | Switch structures | *(pendiente)* |
 | 7 | 7 | Loops: while, do, for | *(pendiente)* |
 | 8 | 8 | Functions — call-by-value / call-by-reference | *(pendiente)* |
