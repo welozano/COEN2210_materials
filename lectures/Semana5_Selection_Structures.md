@@ -489,7 +489,33 @@ Por ejemplo: entrada `1` debe ejecutar `case 1`; entrada `3` debe ejecutar `case
 
 ## Práctica guiada e integración de snippets (20 min)
 
-Usa este tiempo para que la clase complete un ejercicio en parejas o convierta un menú corto de `if`/`else if` a `switch` en la plantilla mínima. Prioriza probar al menos un boundary value y una entrada inválida, además de discutir por qué cada condition está en ese orden. Si no alcanza el tiempo, los ejercicios de práctica quedan como repaso antes del Lab 5.
+### Ejercicio guiado — Solicitud de préstamo de equipo
+
+En la plantilla mínima de la lecture, escribe un programa que determine si una persona puede solicitar un equipo del laboratorio y qué equipo escogió.
+
+El programa debe pedir una cantidad de horas de préstamo. Solo se permiten préstamos de **1 a 4 horas, inclusive**. Si la cantidad está fuera de ese rango, debe mostrar `Invalid loan duration.` y terminar sin mostrar el menú.
+
+Si la cantidad es válida, el programa debe mostrar este menú y pedir una opción:
+
+| Opción | Equipo | Mensaje esperado |
+|---:|---|---|
+| `1` | Sensor kit | `Equipment selected: Sensor kit` |
+| `2` | Multimeter | `Equipment selected: Multimeter` |
+| `3` | Power supply | `Equipment selected: Power supply` |
+
+Usa un `if` con `&&` para validar las horas y un `switch` con `case`, `break` y `default` para las opciones del equipo. El `default` debe mostrar `Invalid equipment choice.`
+
+Antes de compilar, escribe estas predicciones y luego verifica cada una con el programa:
+
+| Horas | Opción | Resultado esperado |
+|---:|---:|---|
+| `0` | — | Muestra `Invalid loan duration.` y no presenta el menú. |
+| `1` | `2` | Acepta las horas y muestra `Equipment selected: Multimeter`. |
+| `4` | `3` | Acepta las horas y muestra `Equipment selected: Power supply`. |
+| `5` | — | Muestra `Invalid loan duration.` y no presenta el menú. |
+| `2` | `9` | Presenta el menú y luego muestra `Invalid equipment choice.` |
+
+Durante la discusión, identifica qué `test cases` verifican los boundary values (`1` y `4`) y cuál llega al `default`.
 
 ---
 
