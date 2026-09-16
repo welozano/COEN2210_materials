@@ -36,8 +36,8 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 3 | 3 | Compilar/correr programas, leer errores del compilador | [Lab3 Intro to CPP](labs/Lab3_Figuras_ASCII.md) |
 | 4 | 4 | No se ofreció: la sesión se usó para impartir la lecture de Semana 4, desplazada por el feriado del lunes. | *(no aplica)* |
 | 5 | 5 | If-else structures y `switch` | *(pendiente)* |
-| 6 | 6 | Switch structures | *(pendiente)* |
-| 7 | 7 | Loops: while, do, for | *(pendiente)* |
+| 6 | 6 | Loops I — `while` y `do while`, integrando selection structures | *(pendiente)* |
+| 7 | 7 | Loops II — `for`, contadores y acumuladores | *(pendiente)* |
 | 8 | 8 | Functions — call-by-value / call-by-reference | *(pendiente)* |
 | 9 | 9 | File I/O | *(pendiente)* |
 | 10 | 10 | Colchón / File I/O (cont.) | *(pendiente)* |
