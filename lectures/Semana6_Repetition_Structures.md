@@ -90,34 +90,29 @@ Muestran `3` y luego `4`.
 
 Un `while loop` evalúa una condition antes de ejecutar su body. Si es `true`, ejecuta el block y vuelve a evaluar; si es `false`, continúa después del loop. Cada vuelta completa es una **iteration**.
 
-**Problema:** retomemos la recepción del laboratorio de la Parte 1. Durante un período, una persona de recepción procesa cierta cantidad de actualizaciones: una reserva elimina un turno y una cancelación devuelve un turno. La entrada es la cantidad inicial de turnos y la cantidad de actualizaciones que se procesarán. En cada iteration, el programa pide la acción (`A` para agregar o `R` para remover), actualiza `remainingSlots` y muestra el nuevo estado. Al terminar todas las actualizaciones, debe mostrar el total final.
+**Problema:** retomemos la recepción del laboratorio de la Parte 1. La recepción puede seguir aceptando actualizaciones mientras quede por lo menos un turno disponible. Una reserva elimina un turno y una cancelación devuelve un turno. La entrada es la cantidad inicial de turnos y una secuencia de acciones (`A` para agregar o `R` para remover). En cada iteration, el programa actualiza `remainingSlots` y muestra el nuevo estado. Cuando ya no quedan turnos, debe salir del loop y mostrar el total final.
 
-Necesitamos dos variables que cambian por razones distintas: `processedUpdates` es el **counter** que indica cuántas actualizaciones se han procesado y permite terminar el loop; `remainingSlots` representa el estado real del inventario de turnos.
+En este caso, `remainingSlots` tiene dos responsabilidades: representa el estado real del inventario y también controla si el loop puede continuar. El `while` no necesita una variable adicional para contar actualizaciones; termina cuando `remainingSlots` llega a 0.
 
 ```cpp
 int remainingSlots;                             // Stores the current number of available slots
-int updateCount;                                // Stores how many updates will be processed
-int processedUpdates = 0;                       // Starts the loop-control counter at zero
 char slotAction;                                // Stores A to add a slot or R to remove a slot
 
 cout << "Enter available appointment slots: "; // Prompts for the starting inventory
 cin >> remainingSlots;                          // Reads the initial slot count
-cout << "Enter the number of updates to process: "; // Prompts for the known number of updates
-cin >> updateCount;                             // Reads the loop limit
 
-while (processedUpdates < updateCount) {        // Repeats until every requested update is processed
+while (remainingSlots > 0) {                    // Repeats only while at least one slot remains
     cout << "Enter A to add a slot or R to remove a slot: "; // Prompts for one update action
     cin >> slotAction;                          // Reads the selected action
 
     if (slotAction == 'A' || slotAction == 'a') { // Checks whether the action adds one available slot
         remainingSlots++;                       // Increases the slot inventory by one
-    } else if ((slotAction == 'R' || slotAction == 'r') && remainingSlots > 0) { // Checks for a valid removal
+    } else if (slotAction == 'R' || slotAction == 'r') { // Checks whether the action removes one available slot
         remainingSlots--;                       // Decreases the slot inventory by one
-    } else {                                    // Handles an invalid action or an unavailable removal
+    } else {                                    // Handles an invalid action
         cout << "Slot update was not applied." << endl; // Reports that the inventory did not change
     }                                           // Ends the selection structure
 
-    processedUpdates++;                         // Moves the counter toward a false loop condition
     cout << "Slots remaining: " << remainingSlots << endl; // Displays the state after this update
 }                                               // Ends the repeated block
 
@@ -126,22 +121,24 @@ cout << "Final available slots: " << remainingSlots << endl; // Displays the fin
 
 | Pieza | Ejemplo | Pregunta clave |
 |---|---|---|
-| Inicialización | `processedUpdates = 0` | ¿Cuántas actualizaciones se han procesado al inicio? |
-| Condition | `processedUpdates < updateCount` | ¿Aún faltan actualizaciones por procesar? |
-| Update | `processedUpdates++` | ¿Qué permite que el loop termine? |
+| Inicialización | Valor inicial de `remainingSlots` | ¿Cuántos turnos están disponibles al inicio? |
+| Condition | `remainingSlots > 0` | ¿Queda al menos un turno para continuar? |
+| Update | `remainingSlots++` o `remainingSlots--` | ¿Cómo cambia el estado después de cada acción? |
 
 ### 2.2 — `while` es un pretest loop
 
-Si `updateCount` es `0`, la condition inicial `0 < 0` es `false`; el body ejecuta cero iterations. Esto es correcto: un `while` es un **pretest loop**. Antes de usarlo, decide si cero repetitions es aceptable o si el input necesita validación.
+Si `remainingSlots` empieza en `0`, la condition inicial `0 > 0` es `false`; el body ejecuta cero iterations. Esto es correcto: un `while` es un **pretest loop**. Antes de usarlo, decide si cero repetitions es aceptable o si el input necesita validación.
 
-Si se empieza con `5` turnos y se procesan tres acciones `R`, `A`, `R`, los valores de `remainingSlots` son 4, 5 y 4. Al mismo tiempo, `processedUpdates` toma los valores 1, 2 y 3, y luego termina el loop. Este trace ayuda a distinguir la variable que controla la repetición de la variable que representa el estado del problema.
+Si se empieza con `3` turnos y se procesan las acciones `R`, `R`, `R`, los valores de `remainingSlots` son 2, 1 y 0. Después de mostrar 0, el programa vuelve a evaluar `remainingSlots > 0`, obtiene `false` y sale del loop. Una acción `A` aumenta los turnos y permite que el loop continúe más tiempo.
 
-**Para practicar por tu cuenta:** si `updateCount` es 1 y la única acción es `A`, ¿cuántas iterations ejecuta y qué variables cambian?
+> ⚠️ **Nota sobre terminación:** si la persona sigue agregando turnos o nunca remueve el último, `remainingSlots` no llegará a 0 y el loop seguirá ejecutándose. No es un error automático: demuestra que todo loop debe tener una forma realista de hacer su condition `false`.
+
+**Para practicar por tu cuenta:** si el programa empieza con `remainingSlots = 1` y la primera acción es `R`, ¿cuántas iterations ejecuta y qué ocurre después?
 
 <details>
 <summary>Ver respuesta</summary>
 
-Ejecuta una iteration. `processedUpdates` cambia de 0 a 1 y termina el loop; `remainingSlots` aumenta en uno.
+Ejecuta una iteration. `remainingSlots` cambia de 1 a 0; al volver a evaluar la condition, el loop termina.
 
 </details>
 
