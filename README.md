@@ -18,7 +18,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 3 | 3 | Introduction to C++ | [Semana3_Introduction_to_CPP.md](lectures/Semana3_Introduction_to_CPP.md) |
 | 4 | 4 | Basic programming concepts and elements | [Semana4_Basic_Programming_Concepts.md](lectures/Semana4_Basic_Programming_Concepts.md) |
 | 5 | 5 | Control structures — Selection structures | [Semana5_Selection_Structures.md](lectures/Semana5_Selection_Structures.md) |
-| 6 | 6 | Control structures — Repetition structures | *(pendiente)* |
+| 6 | 6 | Control structures — Repetition structures | [Semana6_Repetition_Structures.md](lectures/Semana6_Repetition_Structures.md) |
 | 7 | 7 | Review + Midterm 1 | *(pendiente)* |
 | 8 | 8-9 | Functions | *(pendiente)* |
 | 9 | 10 | File Input/Output Management | *(pendiente)* |
@@ -62,10 +62,14 @@ coen2210-labs/
 ├── Tutorial_Basico_Terminal.md    ← recurso de apoyo (no es un lab numerado)
 ├── labs/
 │   ├── Lab1_Git_GitHub_Consola.md
-│   ├── Lab2_...md      (pendiente)
+│   ├── Lab2_VSCode_Git_Representacion_Numerica.md
+│   ├── Lab3_Figuras_ASCII.md
+│   ├── Lab5_Selection_Structures.md
 │   └── ...
 └── lectures/
     ├── Semana2_Hardware_Number_Representation.md
-    ├── Semana1_...md      (pendiente)
+    ├── Semana3_Introduction_to_CPP.md
+    ├── Semana4_Basic_Programming_Concepts.md
+    ├── Semana5_Selection_Structures.md
     └── ...
 ```
