@@ -36,7 +36,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 3 | 3 | Compilar/correr programas, leer errores del compilador | [Lab3 Intro to CPP](labs/Lab3_Figuras_ASCII.md) |
 | 4 | 4 | No se ofreció: la sesión se usó para impartir la lecture de Semana 4, desplazada por el feriado del lunes. | *(no aplica)* |
 | 5 | 5 | If-else structures y `switch` | [Lab5_Selection_Structures.md](labs/Lab5_Selection_Structures.md) |
-| 6 | 6 | Loops I — `while` y `do while`, integrando selection structures | *(pendiente)* |
+| 6 | 6 | Loops I — `while` y `do while`, integrando selection structures | [Lab6_Loops_I.md](labs/Lab6_Loops_I.md) |
 | 7 | 7 | Loops II — `for`, contadores y acumuladores | *(pendiente)* |
 | 8 | 8 | Functions — call-by-value / call-by-reference | *(pendiente)* |
 | 9 | 9 | File I/O | *(pendiente)* |
@@ -65,6 +65,7 @@ coen2210-labs/
 │   ├── Lab2_VSCode_Git_Representacion_Numerica.md
 │   ├── Lab3_Figuras_ASCII.md
 │   ├── Lab5_Selection_Structures.md
+│   ├── Lab6_Loops_I.md
 │   └── ...
 └── lectures/
     ├── Semana2_Hardware_Number_Representation.md
