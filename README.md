@@ -19,7 +19,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 4 | 4 | Basic programming concepts and elements | [Semana4_Basic_Programming_Concepts.md](lectures/Semana4_Basic_Programming_Concepts.md) |
 | 5 | 5 | Control structures — Selection structures | [Semana5_Selection_Structures.md](lectures/Semana5_Selection_Structures.md) |
 | 6 | 6 | Control structures — Repetition structures | [Semana6_Repetition_Structures.md](lectures/Semana6_Repetition_Structures.md) |
-| 7 | 7 | Review + Midterm 1 | *(pendiente)* |
+| 7 | 7 | Review + Midterm 1 | *(evaluación realizada; no hay material de lecture publicado)* |
 | 8 | 8-9 | Functions | *(pendiente)* |
 | 9 | 10 | File Input/Output Management | *(pendiente)* |
 | 10 | 11-12 | Arrays and Matrices | *(pendiente)* |
@@ -37,7 +37,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 4 | 4 | No se ofreció: la sesión se usó para impartir la lecture de Semana 4, desplazada por el feriado del lunes. | *(no aplica)* |
 | 5 | 5 | If-else structures y `switch` | [Lab5_Selection_Structures.md](labs/Lab5_Selection_Structures.md) |
 | 6 | 6 | Loops I — `while` y `do while`, integrando selection structures | [Lab6_Loops_I.md](labs/Lab6_Loops_I.md) |
-| 7 | 7 | Loops II — `for`, contadores y acumuladores | *(pendiente)* |
+| 7 | 7 | Loops II — `for`, contadores y acumuladores | [Lab7_Loops_II.md](labs/Lab7_Loops_II.md) |
 | 8 | 8 | Functions — call-by-value / call-by-reference | *(pendiente)* |
 | 9 | 9 | File I/O | *(pendiente)* |
 | 10 | 10 | Colchón / File I/O (cont.) | *(pendiente)* |
