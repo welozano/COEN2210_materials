@@ -20,7 +20,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 5 | 5 | Control structures — Selection structures | [Semana5_Selection_Structures.md](lectures/Semana5_Selection_Structures.md) |
 | 6 | 6 | Control structures — Repetition structures | [Semana6_Repetition_Structures.md](lectures/Semana6_Repetition_Structures.md) |
 | 7 | 7 | Review + Midterm 1 | *(evaluación realizada; no hay material de lecture publicado)* |
-| 8 | 8-9 | Functions | *(pendiente)* |
+| 8 | 8-9 | Functions | [Semana8_Functions.md](lectures/Semana8_Functions.md) |
 | 9 | 10 | File Input/Output Management | *(pendiente)* |
 | 10 | 11-12 | Arrays and Matrices | *(pendiente)* |
 | 11 | 13 | Review + Midterm 2 | *(pendiente)* |
