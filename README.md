@@ -38,7 +38,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 5 | 5 | If-else structures y `switch` | [Lab5_Selection_Structures.md](labs/Lab5_Selection_Structures.md) |
 | 6 | 6 | Loops I — `while` y `do while`, integrando selection structures | [Lab6_Loops_I.md](labs/Lab6_Loops_I.md) |
 | 7 | 7 | Loops II — `for`, contadores y acumuladores | [Lab7_Loops_II.md](labs/Lab7_Loops_II.md) |
-| 8 | 8 | Functions — call-by-value / call-by-reference | *(pendiente)* |
+| 8 | 8 | Functions — call-by-value / call-by-reference | [Lab8_Functions.md](labs/Lab8_Functions.md) |
 | 9 | 9 | File I/O | *(pendiente)* |
 | 10 | 10 | Colchón / File I/O (cont.) | *(pendiente)* |
 | 11 | 11 | Arrays lab | *(pendiente)* |
