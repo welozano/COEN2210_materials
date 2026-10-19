@@ -39,7 +39,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 6 | 6 | Loops I — `while` y `do while`, integrando selection structures | [Lab6_Loops_I.md](labs/Lab6_Loops_I.md) |
 | 7 | 7 | Loops II — `for`, contadores y acumuladores | [Lab7_Loops_II.md](labs/Lab7_Loops_II.md) |
 | 8 | 8 | Functions — call-by-value / call-by-reference | [Lab8_Functions.md](labs/Lab8_Functions.md) |
-| 9 | 9 | File I/O | *(pendiente)* |
+| 9 | 9 | File I/O | [Lab9_File_IO.md](labs/Lab9_File_IO.md) |
 | 10 | 10 | Colchón / File I/O (cont.) | *(pendiente)* |
 | 11 | 11 | Arrays lab | *(pendiente)* |
 | 12 | 12 | Matrices lab + Git branching refresher | *(pendiente)* |
