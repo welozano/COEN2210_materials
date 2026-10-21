@@ -21,7 +21,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 6 | 6 | Control structures — Repetition structures | [Semana6_Repetition_Structures.md](lectures/Semana6_Repetition_Structures.md) |
 | 7 | 7 | Review + Midterm 1 | *(evaluación realizada; no hay material de lecture publicado)* |
 | 8 | 8-9 | Functions | [Parte I — modularidad, parameters y reference](lectures/Semana8_Functions.md)<br>[Parte II — return values, `bool` y scope local](lectures/Semana9_Functions_Return_Values_Scope.md) |
-| 9 | 10 | File Input/Output Management | *(pendiente)* |
+| 9 | 10 | File Input/Output Management | [Semana10_File_IO.md](lectures/Semana10_File_IO.md) |
 | 10 | 11-12 | Arrays and Matrices | *(pendiente)* |
 | 11 | 13 | Review + Midterm 2 | *(pendiente)* |
 | 12 | 14 | Review (general) | *(pendiente)* |
