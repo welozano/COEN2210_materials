@@ -49,6 +49,14 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 
 ---
 
+### Proyecto final — CoRe Data Analyzer
+
+**Entrega:** 2 de diciembre de 2026.
+
+- [Enunciado y rúbrica](final_project/COEN2210_ProyectoFinal_DataScience.md)
+- [Dataset inicial — 50 observations (CSV)](final_project/swingStatesDF_50.csv)
+- [Basic Integer Calculator — código de apoyo e instrucciones](final_project/BasicCalculator/README.md)
+
 ### Cómo usar este repositorio
 
 - Cada guía está en formato Markdown dentro de `labs/` o `lectures/`, y se puede leer directamente en GitHub (se renderiza con formato automáticamente).
@@ -60,6 +68,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 coen2210-labs/
 ├── README.md                      ← este archivo (índice general)
 ├── Tutorial_Basico_Terminal.md    ← recurso de apoyo (no es un lab numerado)
+├── final_project/                 ← enunciado Markdown, imágenes, dataset y calculadora de apoyo
 ├── labs/
 │   ├── Lab1_Git_GitHub_Consola.md
 │   ├── Lab2_VSCode_Git_Representacion_Numerica.md

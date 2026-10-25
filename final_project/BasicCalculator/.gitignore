@@ -1,0 +1,8 @@
+# Compiled programs and debugging artifacts
+BasicCalculator
+BasicCalculator.exe
+*.o
+*.obj
+*.pdb
+*.ilk
+*.dSYM/
