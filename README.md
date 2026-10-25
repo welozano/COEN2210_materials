@@ -22,9 +22,9 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 7 | 7 | Review + Midterm 1 | *(evaluación realizada; no hay material de lecture publicado)* |
 | 8 | 8-9 | Functions | [Parte I — modularidad, parameters y reference](lectures/Semana8_Functions.md)<br>[Parte II — return values, `bool` y scope local](lectures/Semana9_Functions_Return_Values_Scope.md) |
 | 9 | 10 | File Input/Output Management | [Semana10_File_IO.md](lectures/Semana10_File_IO.md) |
-| 10 | 11-12 | Arrays and Matrices | *(pendiente)* |
+| 10 | 11-12 | Semana 11: arrays, `structs`, arrays de registros, matrices y arrays como miembros; Semana 12: search, sorting, mean, median y mode | [Semana 11 — Arrays, structs y matrices](lectures/Semana11_Arrays_Structs_Matrices.md) · Semana 12: pendiente |
 | 11 | 13 | Review + Midterm 2 | *(pendiente)* |
-| 12 | 14 | Review (general) | *(pendiente)* |
+| 12 | 14 | Project work — integración, pruebas y consultas | *(pendiente)* |
 | 13 | 15 | Project Defense | *(pendiente)* |
 
 ### Índice de Laboratorios
@@ -41,9 +41,9 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 8 | 8 | Functions — call-by-value / call-by-reference | [Lab8_Functions.md](labs/Lab8_Functions.md) |
 | 9 | 9 | File I/O | [Lab9_File_IO.md](labs/Lab9_File_IO.md) |
 | 10 | 10 | Colchón / File I/O (cont.) | *(pendiente)* |
-| 11 | 11 | Arrays lab | *(pendiente)* |
-| 12 | 12 | Matrices lab + Git branching refresher | *(pendiente)* |
-| 13 | 13 | Structs + Project kickoff | *(pendiente)* |
+| 11 | 11 | Basic Calculator: múltiples archivos y compilación (15–20 min); arrays y `structs` del proyecto | *(pendiente)* |
+| 12 | 12 | Search, sorting y estadísticas aplicadas al proyecto | *(pendiente)* |
+| 13 | 13 | Integración del proyecto con los conceptos ya cubiertos | *(pendiente)* |
 | 14 | 14 | Project work session | *(pendiente)* |
 | 15 | 15 | Project Defense | *(pendiente)* |
 
