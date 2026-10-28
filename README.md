@@ -41,7 +41,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 8 | 8 | Functions — call-by-value / call-by-reference | [Lab8_Functions.md](labs/Lab8_Functions.md) |
 | 9 | 9 | File I/O | [Lab9_File_IO.md](labs/Lab9_File_IO.md) |
 | 10 | 10 | Colchón / File I/O (cont.) | *(pendiente)* |
-| 11 | 11 | Basic Calculator: múltiples archivos y compilación (15–20 min); arrays y `structs` del proyecto | *(pendiente)* |
+| 11 | 11 | Basic Calculator: múltiples archivos y compilación; arrays y `structs` del proyecto | [Lab11_Arrays_Structs_Project.md](labs/Lab11_Arrays_Structs_Project.md) |
 | 12 | 12 | Search, sorting y estadísticas aplicadas al proyecto | *(pendiente)* |
 | 13 | 13 | Integración del proyecto con los conceptos ya cubiertos | *(pendiente)* |
 | 14 | 14 | Project work session | *(pendiente)* |
