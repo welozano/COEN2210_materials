@@ -22,7 +22,7 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 7 | 7 | Review + Midterm 1 | *(evaluación realizada; no hay material de lecture publicado)* |
 | 8 | 8-9 | Functions | [Parte I — modularidad, parameters y reference](lectures/Semana8_Functions.md)<br>[Parte II — return values, `bool` y scope local](lectures/Semana9_Functions_Return_Values_Scope.md) |
 | 9 | 10 | File Input/Output Management | [Semana10_File_IO.md](lectures/Semana10_File_IO.md) |
-| 10 | 11-12 | Semana 11: arrays, `structs`, arrays de registros, matrices y arrays como miembros; Semana 12: search, sorting, mean, median y mode | [Semana 11 — Arrays, structs y matrices](lectures/Semana11_Arrays_Structs_Matrices.md) · Semana 12: pendiente |
+| 10 | 11-12 | Semana 11: arrays, `structs`, arrays de registros, matrices y arrays como miembros; Semana 12: search, sorting, mean, median y mode | [Semana 11 — Arrays, structs y matrices](lectures/Semana11_Arrays_Structs_Matrices.md) · [Semana 12 — Search, Sorting and Descriptive Statistics](lectures/Semana12_Search_Sorting_Statistics.md) |
 | 11 | 13 | Review + Midterm 2 | *(pendiente)* |
 | 12 | 14 | Project work — integración, pruebas y consultas | *(pendiente)* |
 | 13 | 15 | Project Defense | *(pendiente)* |

@@ -32,6 +32,7 @@ Debug/
 Release/
 
 # Documentos internos - no publicar
+AGENTS.md
 CONTEXT.md
 STYLE_GUIDE.md
 
