@@ -23,8 +23,8 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 8 | 8-9 | Functions | [Parte I — modularidad, parameters y reference](lectures/Semana8_Functions.md)<br>[Parte II — return values, `bool` y scope local](lectures/Semana9_Functions_Return_Values_Scope.md) |
 | 9 | 10 | File Input/Output Management | [Semana10_File_IO.md](lectures/Semana10_File_IO.md) |
 | 10 | 11-12 | Semana 11: arrays, `structs`, arrays de registros, matrices y arrays como miembros; Semana 12: search, sorting, mean, median y mode | [Semana 11 — Arrays, structs y matrices](lectures/Semana11_Arrays_Structs_Matrices.md) · [Semana 12 — Search, Sorting and Descriptive Statistics](lectures/Semana12_Search_Sorting_Statistics.md) |
-| 11 | 13 | Review + Midterm 2 | *(pendiente)* |
-| 12 | 14 | Project work — integración, pruebas y consultas | *(pendiente)* |
+| 11 | 13 | Project work — integración, pruebas y consultas | *(pendiente)* |
+| 12 | 14 | Review + Midterm 2 | *(pendiente)* |
 | 13 | 15 | Project Defense | *(pendiente)* |
 
 ### Índice de Laboratorios
@@ -42,9 +42,9 @@ Repositorio con los materiales del curso (lectures y laboratorios), en C++. Cada
 | 9 | 9 | File I/O | [Lab9_File_IO.md](labs/Lab9_File_IO.md) |
 | 10 | 10 | Colchón / File I/O (cont.) | *(pendiente)* |
 | 11 | 11 | Basic Calculator: múltiples archivos y compilación; arrays y `structs` del proyecto | [Lab11_Arrays_Structs_Project.md](labs/Lab11_Arrays_Structs_Project.md) |
-| 12 | 12 | Search, sorting y estadísticas aplicadas al proyecto | *(pendiente)* |
-| 13 | 13 | Integración del proyecto con los conceptos ya cubiertos | *(pendiente)* |
-| 14 | 14 | Project work session | *(pendiente)* |
+| 12 | 12 | Search, sorting y estadísticas aplicadas al proyecto | [Lab12_Search_Sorting_Statistics.md](labs/Lab12_Search_Sorting_Statistics.md) |
+| 13 | 13 | Project work — integración con los conceptos ya cubiertos | *(pendiente)* |
+| 14 | 14 | Review + Midterm 2 | *(pendiente)* |
 | 15 | 15 | Project Defense | *(pendiente)* |
 
 ---
